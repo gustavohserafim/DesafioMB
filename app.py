@@ -1,19 +1,13 @@
 from flask import Flask, request
 
+from Controller.PairController import PairController
 
 app = Flask(__name__)
 
-'''
-pair: BRLBTC e BRLETH // Vai no Path da url
-- from: timestamp
-- to: timestramp, default: Dia anterior
-- range: 20, 50 ou 200 (dias)
-'''
-from Controller.PairController import PairController
 
 @app.route("/<string:pair>/mms", methods=["GET"])
 def get_pair_mms(pair):
-    return PairController.get_pair_mms()
+    return PairController.get_pair_mms(pair, request)
 
 
 if __name__ == "__main__":
