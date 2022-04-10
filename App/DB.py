@@ -9,7 +9,6 @@ class DB:
             'user': environ['DB_USER'],
             'password': environ['DB_PASS'],
             'host': environ['DB_HOST'],
-            'ssl_ca': 'rds-combined-ca-bundle.pem',
             'database': environ['DB_SCHEMA'],
         }
 
