@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 
 from flask_request_validator import *
 from flask_request_validator.error_formatter import demo_error_formatter
-from flask_request_validator.exceptions import InvalidRequestError, InvalidHeadersError, RuleError
+from flask_request_validator.exceptions import InvalidRequestError
 
 from Controller.PairController import PairController
 
@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.errorhandler(InvalidRequestError)
 def data_error(e):
-    return jsonify(demo_error_formatter(e))
+    return jsonify(demo_error_formatter(e)), 400
 
 
 @app.route("/<string:pair>/mms", methods=["GET"])
