@@ -6,10 +6,10 @@ class DB:
 
     def __init__(self):
         config = {
-            'user': environ['DB_USER'],
-            'password': environ['DB_PASS'],
-            'host': environ['DB_HOST'],
-            'database': environ['DB_SCHEMA'],
+            'user': environ['MYSQL_USER'],
+            'password': environ['MYSQL_PASSWORD'],
+            'database': environ['MYSQL_DATABASE'],
+            'host': 'mysql',
         }
 
         self._conn = mysql.connector.connect(**config)
