@@ -1,9 +1,8 @@
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
-from time import mktime, sleep
+from time import mktime
 from sqlalchemy import create_engine
-from sqlalchemy.exc import OperationalError
 
 today = datetime.timestamp(datetime.today())
 oldest = mktime((datetime.today() - timedelta(days=365)).timetuple())
@@ -11,16 +10,11 @@ oldest = mktime((datetime.today() - timedelta(days=365)).timetuple())
 
 def is_db_populated():
     engine = create_engine("mysql://desafiomb:desafiomb@mysql/desafiomb")
-    try:
-        with engine.connect() as con:
-            cur = con.execute('SELECT * FROM pair WHERE mms_20 IS NOT NULL;')
-            if cur.rowcount == 0:
-                return False
-        return True
-    except OperationalError:
-        print()
-    finally:
-        return False
+    with engine.connect() as con:
+        cur = con.execute('SELECT * FROM pair WHERE mms_20 IS NOT NULL;')
+        if cur.rowcount == 0:
+            return False
+    return True
 
 
 def populate():
