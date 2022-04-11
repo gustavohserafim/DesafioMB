@@ -1,1 +1,42 @@
+version: '3.7'
+services:
+  desafiomb:
+    image: hello-world
+    links:
+      - database
+      - mb-mms
+
+  database:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: 'desafiomb'
+      MYSQL_USER: 'desafiomb'
+      MYSQL_PASSWORD: 'desafiomb'
+      MYSQL_ROOT_PASSWORD: 'desafiomb'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
       - "./scripts/pair.sql:/docker-entrypoint-initdb.d/1.sql"
+    networks:
+      - api-mb
+  mb-mms:
+    build:
+      context: "../DesafioMB"
+      dockerfile: "Dockerfile"
+    entrypoint: ./sources/entry-point.sh
+    environment:
+      MYSQL_DATABASE: 'desafiomb'
+      MYSQL_USER: 'desafiomb'
+      MYSQL_PASSWORD: 'desafiomb'
+    restart: always
+    ports:
+      - '5000:5000'
+    expose:
+      - '5000'
+    networks:
+      - api-mb
+networks:
+  api-mb:
