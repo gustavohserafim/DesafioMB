@@ -42,3 +42,6 @@ Script é executado automaticamente ao executar a aplicação. Localizado em scr
 
 ## Job de atualização
 As incrementações diárias são feitas através de um job que é executado todos os dias pelo crontab. Localizado em scripts/update_job.py
+
+## Testes
+Rodar o teste/requests_tests.py, se nenhum exception for levantada os testes rodaram com sucesso.
