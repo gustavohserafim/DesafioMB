@@ -4,12 +4,13 @@ from datetime import datetime, timedelta
 from time import mktime
 from sqlalchemy import create_engine
 
-today = datetime.timestamp(datetime.today())
-oldest = mktime((datetime.today() - timedelta(days=365)).timetuple())
+
+def get_db_con():
+    return create_engine("mysql://desafiomb:desafiomb@mysql/desafiomb")
 
 
 def is_db_populated():
-    engine = create_engine("mysql://desafiomb:desafiomb@mysql/desafiomb")
+    engine = get_db_con()
     with engine.connect() as con:
         cur = con.execute('SELECT * FROM pair WHERE mms_20 IS NOT NULL;')
         if cur.rowcount == 0:
@@ -21,6 +22,9 @@ def populate():
     pairs = ["BRLBTC", "BRLETH"]
 
     for pair in pairs:
+        today = datetime.timestamp(datetime.today())
+        oldest = mktime((datetime.today() - timedelta(days=365)).timetuple())
+
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
                                  "Chrome/56.0.2924.76 Safari/537.36 "}
 
@@ -44,7 +48,7 @@ def populate():
             df.drop("close", 1, inplace=True)
             df.reset_index(drop=True)
 
-            engine = create_engine("mysql://desafiomb:desafiomb@mysql/desafiomb")
+            engine = get_db_con()
             with engine.connect() as con:
                 df.to_sql("pair", con=con, if_exists="append", index=False)
 
