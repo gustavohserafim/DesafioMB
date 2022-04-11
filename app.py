@@ -6,6 +6,8 @@ from flask_request_validator.exceptions import InvalidRequestError, InvalidHeade
 
 from Controller.PairController import PairController
 
+from scripts.populate import run_populate
+
 app = Flask(__name__)
 
 
@@ -26,4 +28,5 @@ def get_pair_mms(valid: ValidRequest, pair):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=False)
+    run_populate()
+    app.run(host="0.0.0.0", port=5000, debug=True)
